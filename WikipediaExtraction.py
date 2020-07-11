@@ -64,3 +64,20 @@ def getVegetables():
         if(hasNumbers(item)):
             vegetables.remove(item)
     return vegetables
+
+def getHerbs():
+    my_url = 'https://en.wikipedia.org/wiki/List_of_culinary_herbs_and_spices'
+    UClient =  uReq(my_url)
+    page_html = UClient.read()
+
+    # Extract code
+    page_soup = soup(page_html,"lxml")
+    # Extract tables
+    tables = page_soup.find_all("li")
+    herbs = []
+    for item in tables[29:220]:
+        herbs.append(item.get_text().split(",")[0].split("(")[0].lower())
+    herbs = list(set(herbs))
+    herbs.sort()
+    
+    return herbs
